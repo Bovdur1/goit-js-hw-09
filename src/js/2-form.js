@@ -4,11 +4,13 @@ const form = document.querySelector(".feedback-form");
 const localStorageKey = "feedback-data";
 
 // Initial data of the form
-try {
-const localStorageData = JSON.parse(localStorage.getItem(localStorageKey));
-form.elements.email.value = localStorageData.email;
-form.elements.message.value = localStorageData.message;  
-} catch (e) {}
+if (localStorage.getItem(localStorageKey)) {
+    const localStorageData = JSON.parse(localStorage.getItem(localStorageKey));
+    if (localStorageData) {
+        form.elements.email.value = localStorageData.email;
+        form.elements.message.value = localStorageData.message;
+    }
+}
 
 const formObject = {};
 
@@ -34,6 +36,6 @@ form.addEventListener("submit", (e) => {
     } else {
         console.log(formObject);
         form.reset()
-        localStorage.clear()
+        localStorage.removeItem(localStorageKey)
     }
 })
